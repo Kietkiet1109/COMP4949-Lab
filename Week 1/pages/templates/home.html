@@ -4,8 +4,6 @@
 {% block content %}
 <h1>Home page</h1>
 
-<h3>Name: {{firstName}} {{lastName}}</h3>
-
   <!-- This form references the homePost route. -->
 <form action="{% url 'homePost' %}" method="post">
 {% csrf_token %}
@@ -29,4 +27,3 @@
 <!-- This error will notify the user if there are issues with the POST request -->
 {% if errorMessage %}<p><strong>{{errorMessage}}</strong></p>{% endif %}
 {% endblock content %}
-

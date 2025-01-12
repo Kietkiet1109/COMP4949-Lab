@@ -9,9 +9,7 @@ import pandas as pd
 def homePageView(request):
     # return request object and specify page.
     return render(request, 'home.html', {
-        'mynumbers':[1,2,3,4,5,6,7],
-        'firstName': 'Kiet',
-        'lastName': 'Ngo'})
+        'mynumbers':[1,2,3,4,5,6,7]})
 
 def homePost(request):
     # Use request object to extract choice.
@@ -32,7 +30,7 @@ def homePost(request):
     except:
         return render(request, 'home.html', {
             'errorMessage': '*** The data submitted is invalid. Please try again.',
-            'mynumbers': [1, 2, 3, 4, 5, 6, ]})
+            'mynumbers': [1, 2, 3, 4, 5, 6, 7]})
     else:
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
@@ -42,7 +40,7 @@ def homePost(request):
 def results(request, choice, gmat):
     print("*** Inside reults()")
     # load saved model
-    with open(r'C:/Users/KietV/Documents/Term 4/COMP 4949 - Big Data/Lab Code/Week 1/model_pkl', 'rb') as f:
+    with open(r'/home/kietkiet1109/COMP4949-Lab/Week 1/static/model_pkl', 'rb') as f:
         loadedModel = pickle.load(f)
 
     # Create a single prediction.
@@ -51,16 +49,17 @@ def results(request, choice, gmat):
     workExperience = float(choice)
     print("*** GMAT Score: " + str(gmat))
     print("*** Years experience: " + str(workExperience))
-    singleSampleDf = singleSampleDf._append({'gmat':gmat,
-                                            'work_experience':workExperience},
-                                        ignore_index=True)
+    singleSampleDf = singleSampleDf.append({'gmat': gmat,
+                                            'work_experience': workExperience},
+                                           ignore_index=True)
 
     singlePrediction = loadedModel.predict(singleSampleDf)
 
     print("Single prediction: " + str(singlePrediction))
 
-    return render(request, 'results.html', {'choice': workExperience, 'gmat':gmat,
-                'prediction':singlePrediction})
+    return render(request, 'results.html', {'choice': workExperience, 'gmat': gmat,
+                                            'prediction': singlePrediction,
+                                            'firstName': 'Kiet', 'lastName': 'Ngo'})
 
 def aboutPageView(request):
     # return request object and specify page.
